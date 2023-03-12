@@ -17,22 +17,23 @@ public class Test {
         //session.beginTransaction();
 
 
-       Date dateTask = new Date(23, 4, 12);
+       Date dateTask = new Date(23, 4, 14);
 //
-        Todo todo1 = new Todo("drinking", user2.getUsername(), "beer drinking", dateTask, false);
-        Todo todo2 = new Todo("drinking", user2.getUsername(), "vodka drinking", dateTask, false);
+        Todo todo1 = new Todo("drink very hard", user2.getUsername(), "water drinking", dateTask, false);
+        //Todo todo2 = new Todo("drinking", user2.getUsername(), "vodka drinking", dateTask, false);
 //
 //
-//        String userName = "petropivo";
-//        String password = "00000";
-//          UserDao userDao = new UserDao();
-//          Integer id = userDao.getUserId(userName, password);
+        String userName = "petropivo";
+        String password = "00000";
+          //UserDao userDao = new UserDao();
+          //Integer id = userDao.getUserId(userName, password);
 //          User user = userDao.getUserById(id);
           //boolean register = userDao.registerUser(user2);
         TodoDao todoDao = new TodoDao();
-        //List<Todo> todoList = todoDao.getAllTodoById(1);
-        //Todo todo = todoDao.getTodoById(BigInteger.valueOf(14));
-          System.out.println(todoDao.insertTodo(user2, todo1));
-            System.out.println(todoDao.insertTodo(user2, todo2));
+        //boolean isDelete1 = todoDao.deleteTodo(BigInteger.valueOf(27));
+        boolean isUpdate = todoDao.updateTodo(todo1, BigInteger.valueOf(28));
+
+          System.out.println(isUpdate);
+          //System.out.println(todoDao.insertTodo();
     }
 }

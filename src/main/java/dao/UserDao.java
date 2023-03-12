@@ -7,11 +7,14 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UserDao {
+public class UserDao implements UserInt{
+    private final String GET_ALL_USER = "from User";
+    private final String SELECT_USER_BY_ID = "select id from User where username like :USERNAME and password like :PASSWORD";
 
     /*
     Внесение пользователя в базу данных
      */
+    @Override
     public boolean registerUser(User user) throws ClassNotFoundException {
         boolean result;
         Session session = null;
@@ -34,12 +37,13 @@ public class UserDao {
     /*
     Метод для получения списка всех пользователей
      */
+    @Override
     public List<User> getAll() {
         Session session = null;
         try {
             session = ConnectionToDB.getSession();
             session.beginTransaction();
-            Query<User> query = session.createQuery("from User", User.class);
+            Query<User> query = session.createQuery(GET_ALL_USER, User.class);
             return query.list();
         }
         finally {
@@ -54,6 +58,7 @@ public class UserDao {
     /*
     Получение пользователя по id
      */
+    @Override
     public User getUserById(Integer id) {
         Session session = null;
         try {
@@ -74,18 +79,17 @@ public class UserDao {
     /*
     Метод получения id пользователя по его логину и паролю
      */
+    @Override
     public Integer getUserId(String username, String password){
         Integer userId;
         Session session = null;
-        String hql = "select id from User where username like :USERNAME and password like :PASSWORD";
         try {
             session = ConnectionToDB.getSession();
             session.beginTransaction();
-            Query<Integer> query = session.createQuery(hql, Integer.class);
+            Query<Integer> query = session.createQuery(SELECT_USER_BY_ID, Integer.class);
             query.setParameter("USERNAME", username);
             query.setParameter("PASSWORD", password);
             userId = query.uniqueResult();
-
         }
         finally {
             if (session != null) {
@@ -100,6 +104,7 @@ public class UserDao {
     /*
     Метод для удаления из БД пользователя вместе с его задачами
     */
+    @Override
     public boolean removeUser(User user) throws ClassNotFoundException {
         boolean result;
         Session session = null;

@@ -2,32 +2,33 @@ package dao;
 
 import connection.ConnectionToDB;
 import model.Todo;
-import model.User;
-import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-
-
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
-public class TodoDao {
 
+public class TodoDao implements TodoInt{
+    private final String GET_ALL_TODO = "from Todo where users_id = :ID";
+    private final String GET_TODO_BY_ID = "select title, username, description,targetdate,isDone from Todo where id = :TODOID";
+    private final String ADD_TODO = "INSERT INTO todos (description,  is_done, target_date, username, title, users_id) VALUE  (?, ?, ?, ?, ?, ?)";
+    private final String DELETE_TODO =  "delete from Todo where id = :ID";
+    private final String UPDATE_TODO = "update todos set description = ?, is_done = ?, target_date = ?, username = ?,\n" +
+            "                 title = ?\n" +
+            "where id = ?";
     /*
     Метод для получения списка всех задач пользовтеля по его id
      */
-    public List<Todo> getAllTodoById(Integer id){
+    @Override
+    public List<Todo> getAllTodoByUserId(Integer userId){
         List<Todo> todoList;
         Session session = null;
-        String hql = "from Todo where users_id = :ID";
         try {
             session = ConnectionToDB.getSession();
             session.beginTransaction();
-            Query<Todo> query = session.createQuery(hql, Todo.class);
-            query.setParameter("ID", id);
+            Query<Todo> query = session.createQuery(GET_ALL_TODO, Todo.class);
+            query.setParameter("ID", userId);
             todoList = query.getResultList();
 
         } finally {
@@ -43,14 +44,14 @@ public class TodoDao {
     /*
     Метод для получения отдельной задачи пользовтеля по её id
      */
+    @Override
     public Todo getTodoById(BigInteger todoId){
         Todo todo;
         Session session = null;
-        String hql = "select title, username, description,targetdate,isDone from Todo where id = :TODOID";
         try {
             session = ConnectionToDB.getSession();
             session.beginTransaction();
-            Query<Todo> query = session.createQuery(hql);
+            Query<Todo> query = session.createQuery(GET_TODO_BY_ID);
             query.setParameter("TODOID", todoId);
             todo = session.get(Todo.class, todoId);
 
@@ -64,31 +65,31 @@ public class TodoDao {
         }
         return todo;
     }
-    public boolean insertTodo(User user, Todo todo){
+    /*
+    Метод для вставки новой задачи в таблицу задач по номеру пользователя, создавшего задачу
+     */
+    @Override
+    public boolean insertTodo(Todo todo, Integer userId){
         boolean todoAdded;
-        Integer userId = user.getId();
         String title = todo.getTitle();
         String description = todo.getDescription();
         String username = todo.getUsername();
         boolean isDone = todo.getDone();
         Date date = todo.getTargetdate();
         Session session = null;
-        // "insert into Todo (title, username, description, targetdate, isDone, users_id) VALUES (:TITLE, :USERNAME, :DESCRIPTION, :TARGETDATE, :ISDONE, :USERSID)";
-        String hql = "insert into Todo (title, username, description, targetdate, isDone, users_id) VALUES (:TITLE, :USERNAME, :DESCRIPTION, :TARGETDATE, :ISDONE, :USERSID)";
         try {
             session = ConnectionToDB.getSession();
             session.beginTransaction();
-            Query<Todo> query = session.createQuery(hql);
-            query.setParameter("TITLE", title);
-            query.setParameter("USERNAME", username);
-            query.setParameter("DESCRIPTION", description);
-            query.setParameter("TARGETDATE", date);
-            query.setParameter("ISDONE", isDone);
-            query.setParameter("USERSID", userId);
+            Query<Todo> query = session.createSQLQuery(ADD_TODO);
+            query.setParameter(1, description);
+            query.setParameter(2, isDone);
+            query.setParameter(3, date);
+            query.setParameter(4, username);
+            query.setParameter(5, title);
+            query.setParameter(6, userId);
+            query.executeUpdate();
             todoAdded = true;
-
         }
-
         finally {
             if (session != null) {
                 session.getTransaction().commit();
@@ -98,10 +99,65 @@ public class TodoDao {
             }
         }
         return todoAdded;
+    }
+    /*
+    Метод для удаления задачи по её id
+     */
+    @Override
+    public boolean deleteTodo(BigInteger todoId){
+        boolean isDelete;
+        Session session = null;
+        try {
+            session = ConnectionToDB.getSession();
+            session.beginTransaction();
+            Query<Todo> query = session.createQuery(DELETE_TODO);
+            query.setParameter("ID", todoId);
+            query.executeUpdate();
+            isDelete = true;
+        } finally {
+            if (session != null) {
+                session.getTransaction().commit();
+            }
+            if (session != null) {
+                session.close();
+            }
+        }
+        return isDelete;
+    }
+    /*
+    Метод для обновления существующей задачи по её id
+     */
+    @Override
+    public boolean updateTodo(Todo todo, BigInteger todoId){
+        boolean todoAdded;
+        String title = todo.getTitle();
+        String description = todo.getDescription();
+        String username = todo.getUsername();
+        boolean isDone = todo.getDone();
+        Date date = todo.getTargetdate();
+        Session session = null;
+        try {
+            session = ConnectionToDB.getSession();
+            session.beginTransaction();
+            Query<Todo> query = session.createSQLQuery(UPDATE_TODO);
+            query.setParameter(1, description);
+            query.setParameter(2, isDone);
+            query.setParameter(3, date);
+            query.setParameter(4, username);
+            query.setParameter(5, title);
+            query.setParameter(6, todoId);
+            query.executeUpdate();
+            todoAdded = true;
+        }
+        finally {
+            if (session != null) {
+                session.getTransaction().commit();
+            }
+            if (session != null) {
+                session.close();
+            }
+        }
+        return todoAdded;
+    }
 
-    }
-    private void addTodo(User user, Todo todo){
-        List<Todo> list = new ArrayList<>();
-        list.add(todo);
-    }
 }

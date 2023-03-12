@@ -34,6 +34,12 @@ public class User {
 
     public User() {
             }
+    public void addTodo(Todo todo)
+    {
+        if(todoList == null){
+            todoList = new ArrayList<>();}
+        todoList.add(todo);
+    }
 
     public Integer getId() {
         return id;
@@ -76,6 +82,11 @@ public class User {
     }
 
     public List<Todo> getTodoList() {
+        if(todoList == null){
+            List<Todo> todos = new ArrayList<>();
+            return todos;
+        }
+        else
         return todoList;
     }
 
