@@ -9,7 +9,8 @@ import java.util.List;
 
 public class UserDao implements UserInt{
     private final String GET_ALL_USER = "from User";
-    private final String SELECT_USER_BY_ID = "select id from User where username like :USERNAME and password like :PASSWORD";
+    //private final String SELECT_USER_BY_ID = "select id from User where username like :USERNAME and password like :PASSWORD";
+    private final String SELECT_USER_BY_ID = "select id from User where username like :USERNAME";
 
     /*
     Внесение пользователя в базу данных
@@ -79,8 +80,10 @@ public class UserDao implements UserInt{
     /*
     Метод получения id пользователя по его логину и паролю
      */
+
+    //public Integer getUserId(String username, String password){
     @Override
-    public Integer getUserId(String username, String password){
+    public Integer getUserId(String username){
         Integer userId;
         Session session = null;
         try {
@@ -88,7 +91,7 @@ public class UserDao implements UserInt{
             session.beginTransaction();
             Query<Integer> query = session.createQuery(SELECT_USER_BY_ID, Integer.class);
             query.setParameter("USERNAME", username);
-            query.setParameter("PASSWORD", password);
+            //query.setParameter("PASSWORD", password);
             userId = query.uniqueResult();
         }
         finally {
