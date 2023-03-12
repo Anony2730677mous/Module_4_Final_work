@@ -1,9 +1,12 @@
 import connection.ConnectionToDB;
+import dao.LoginDao;
 import dao.TodoDao;
 import dao.UserDao;
+import model.LoginBean;
 import model.Todo;
 import model.User;
 import org.hibernate.Session;
+import service.LoginService;
 import service.TodoService;
 import service.UserService;
 
@@ -31,22 +34,30 @@ public class Test {
          */
         String userName = "olvolk";
         String password = "112233";
+        String userName1 = "hans";
+        String password1 = "234";
         String firstname = "Oleg";
         String lastName = "Volkov";
-        UserService userService = new UserService(new UserDao());
-        //User user = userService.createNewUser(firstname, lastName,userName, password);
-
-        TodoService todoService = new TodoService(new TodoDao(), new UserDao());
-        String title = " buy drink";
-        String description = "buy cola, coke, water";
-        String username = userName;
-        boolean isDone = false;
-        Date date = dateTask;
-        BigInteger todoId = BigInteger.valueOf(29);
-        //Todo todo = todoService.createNewTodo(title, description, username, isDone, date);
-        todoService.deleteTodo(todoId);
-
-        System.out.println(todoService.todoList(userName));
+//        UserService userService = new UserService(new UserDao());
+//        //User user = userService.createNewUser(firstname, lastName,userName, password);
+//
+//        TodoService todoService = new TodoService(new TodoDao(), new UserDao());
+//        String title = " buy drink";
+//        String description = "buy cola, coke, water";
+//        String username = userName;
+//        boolean isDone = false;
+//        Date date = dateTask;
+//        BigInteger todoId = BigInteger.valueOf(29);
+//        //Todo todo = todoService.createNewTodo(title, description, username, isDone, date);
+//        todoService.deleteTodo(todoId);
+//
+//        System.out.println(todoService.todoList(userName));
+//     LoginBean loginBean = new LoginBean();
+//     loginBean.setPassword(password1);
+//     loginBean.setUsername(userName1);
+//     LoginDao loginDao = new LoginDao();
+        LoginService loginService = new LoginService(new LoginDao(), new LoginBean());
+     System.out.println(loginService.userValidate(userName1, password1));
 
 
 
