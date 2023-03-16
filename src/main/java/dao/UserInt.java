@@ -7,8 +7,6 @@ public interface UserInt {
     boolean registerUser(User user) throws ClassNotFoundException;
     List<User> getAll();
     User getUserById(Integer id);
-    //Integer getUserId(String username, String password);
     Integer getUserId(String username);
     boolean removeUser(User user) throws ClassNotFoundException;
-
 }

@@ -16,8 +16,8 @@ public class UserDao implements UserInt{
     }
 
     /*
-        Внесение пользователя в базу данных
-         */
+     Внесение пользователя в базу данных
+     */
     @Override
     public boolean registerUser(User user) throws ClassNotFoundException {
         boolean result;
@@ -83,8 +83,6 @@ public class UserDao implements UserInt{
     /*
     Метод получения id пользователя по его логину и паролю
      */
-
-    //public Integer getUserId(String username, String password){
     @Override
     public Integer getUserId(String username){
         Integer userId;

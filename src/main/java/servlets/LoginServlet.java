@@ -33,7 +33,6 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        //response.sendRedirect("login/login.jsp");
         response.sendRedirect("index.html");
     }
 
