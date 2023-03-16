@@ -33,7 +33,8 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        response.sendRedirect("login/login.jsp");
+        //response.sendRedirect("login/login.jsp");
+        response.sendRedirect("index.html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -58,15 +59,17 @@ public class LoginServlet extends HttpServlet {
         Если пользователь существует, проходит перенаправление на страницу todo/todo-list.jsp
          */
         if (isValidate) {
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
             RequestDispatcher dispatcher = request.getRequestDispatcher("todo/todo-list.jsp");
             dispatcher.forward(request, response);
         } else {
         /*
-        Если пользователя нет, то идет перенаправление на страницу login/login.jsp для регистрации или повторного ввода данных
+        Если пользователя нет, то идет перенаправление на страницу index.html для регистрации или повторного ввода данных
          */
             HttpSession session = request.getSession();
-            session.setAttribute("user", username);
-            response.sendRedirect("login/login.jsp");
+            session.setAttribute("username", username);
+            response.sendRedirect("index.html");
         }
     }
 }

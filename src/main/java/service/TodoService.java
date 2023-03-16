@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 public class TodoService implements TodoServiceInt{
+
     private final TodoDao todoDao;
     private final UserDao userDao;
     public TodoService(TodoDao todoDao, UserDao userDao){
         this.todoDao = todoDao;
         this.userDao = userDao;
     }
+
     @Override
     public List<Todo> todoList(String userName){
         Integer userId = userDao.getUserId(userName);
@@ -32,14 +34,9 @@ public class TodoService implements TodoServiceInt{
         boolean isAdded = todoDao.insertTodo(todo, userId);
         System.out.println("Пользователь добавил задачу? " + isAdded);
     }
-//    public Todo updateTodo1(Todo todo, BigInteger todoId) //вариант 1 возвращает обновленную задачу обратно
-//    {
-//        boolean isUpdate = todoDao.updateTodo(todo, todoId);
-//        System.out.println("Пользователь обновил задачу? " + isUpdate);
-//        return todoDao.getTodoById(todoId);
-//    }
+
     @Override
-    public void updateTodo2(Todo todo, BigInteger todoId) // вариант 2 проводит обновление задачи, но ничего не возвращает
+    public void updateTodo2(Todo todo, BigInteger todoId) // вариант №2 метода  проводит обновление задачи, но ничего не возвращает
     {
         boolean isUpdate = todoDao.updateTodo(todo, todoId);
         System.out.println("Пользователь обновил задачу? " + isUpdate);

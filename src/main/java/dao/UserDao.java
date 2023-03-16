@@ -12,9 +12,12 @@ public class UserDao implements UserInt{
     //private final String SELECT_USER_BY_ID = "select id from User where username like :USERNAME and password like :PASSWORD";
     private final String SELECT_USER_BY_ID = "select id from User where username like :USERNAME";
 
+    public UserDao() {
+    }
+
     /*
-    Внесение пользователя в базу данных
-     */
+        Внесение пользователя в базу данных
+         */
     @Override
     public boolean registerUser(User user) throws ClassNotFoundException {
         boolean result;

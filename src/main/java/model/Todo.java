@@ -77,6 +77,14 @@ public class Todo {
         this.title = title;
     }
 
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Todo{" +

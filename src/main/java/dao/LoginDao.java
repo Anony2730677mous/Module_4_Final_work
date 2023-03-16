@@ -10,6 +10,8 @@ import org.hibernate.Session;
 public class LoginDao {
     private final String USER_VALIDATE = "from User where username like :USERNAME and password like :PASSWORD";
 
+    public LoginDao() {
+    }
 
     public boolean validate(LoginBean loginBean){
         boolean status = false;

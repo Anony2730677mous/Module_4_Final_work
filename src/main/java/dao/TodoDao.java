@@ -17,6 +17,10 @@ public class TodoDao implements TodoInt{
     private final String UPDATE_TODO = "update todos set description = ?, is_done = ?, target_date = ?, username = ?,\n" +
             "                 title = ?\n" +
             "where id = ?";
+
+    public TodoDao() {
+    }
+
     /*
     Метод для получения списка всех задач пользовтеля по его id
      */

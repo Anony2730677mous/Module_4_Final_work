@@ -13,19 +13,12 @@ public class ConnectionToDB {
      */
     private static final String configFile = "hibernate.cfg.xml";
 
-    private static final SessionFactory sessionFactory;
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure(configFile);
-            sessionFactory = configuration
-                    .addAnnotatedClass(Todo.class)
-                    .addAnnotatedClass(User.class)
-                    .buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+    private static final SessionFactory sessionFactory = new Configuration()
+            .configure(configFile)
+            .addAnnotatedClass(Todo.class)
+            .addAnnotatedClass(User.class)
+            .buildSessionFactory();
+
     public static Session getSession() throws HibernateException {
         return sessionFactory.openSession();
     }

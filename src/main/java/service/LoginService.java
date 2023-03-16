@@ -4,6 +4,7 @@ import dao.LoginDao;
 import model.LoginBean;
 
 public class LoginService {
+
     private final LoginDao loginDao;
     private final LoginBean loginBean;
     public LoginService(LoginDao loginDao, LoginBean loginBean){
