@@ -9,6 +9,8 @@ package servlets;
 
 import dao.LoginDao;
 import model.LoginBean;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.LoginService;
 
 import javax.servlet.RequestDispatcher;
@@ -23,6 +25,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LogManager.getLogger(LoginServlet.class);
     private LoginDao loginDao;
     private LoginBean loginBean;
 
@@ -39,6 +42,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         validate(request, response);
+        LOGGER.warn("request and response " + request.getPathInfo() + response.getContentType());
     }
     /*
    Метод для проверки логина и пароля пользователя
@@ -54,12 +58,14 @@ public class LoginServlet extends HttpServlet {
          */
         LoginService loginService = new LoginService(loginDao, loginBean);
         boolean isValidate = loginService.userValidate(username, password);
+        LOGGER.info("Has the user with the username: " + username + " passed the check for presence in the database? " + isValidate);
         /*
         Если пользователь существует, проходит перенаправление на страницу todo/todo-list.jsp
          */
         if (isValidate) {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
+            LOGGER.info("A user with the username: " + username + " logged in.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("todo/todo-list.jsp");
             dispatcher.forward(request, response);
         } else {
@@ -69,6 +75,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             response.sendRedirect("index.html");
+            LOGGER.info("A user login error has occurred");
         }
     }
 }

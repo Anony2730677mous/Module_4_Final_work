@@ -1,6 +1,8 @@
 package model;
 
 import jakarta.persistence.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(schema = "todo_list", name = "users")
 public class User {
+    private static final Logger LOGGER = LogManager.getLogger(User.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,16 +32,10 @@ public class User {
         this.lastname = lastname;
         this.username = username;
         this.password = password;
-
+        LOGGER.info("Create user with username: " + username);
     }
 
     public User() {
-            }
-    public void addTodo(Todo todo)
-    {
-        if(todoList == null){
-            todoList = new ArrayList<>();}
-        todoList.add(todo);
     }
 
     public Integer getId() {

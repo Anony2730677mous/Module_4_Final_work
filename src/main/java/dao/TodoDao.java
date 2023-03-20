@@ -2,6 +2,9 @@ package dao;
 
 import connection.ConnectionToDB;
 import model.Todo;
+import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import java.math.BigInteger;
@@ -10,6 +13,7 @@ import java.util.List;
 
 
 public class TodoDao implements TodoInt{
+    private static final Logger LOGGER = LogManager.getLogger(TodoDao.class);
     private final String GET_ALL_TODO = "from Todo where users_id = :ID";
     private final String GET_TODO_BY_ID = "select title, username, description,targetdate,isDone from Todo where id = :TODOID";
     private final String ADD_TODO = "INSERT INTO todos (description,  is_done, target_date, username, title, users_id) VALUE  (?, ?, ?, ?, ?, ?)";
@@ -34,6 +38,7 @@ public class TodoDao implements TodoInt{
             Query<Todo> query = session.createQuery(GET_ALL_TODO, Todo.class);
             query.setParameter("ID", userId);
             todoList = query.getResultList();
+            LOGGER.info("The user with the userId: " + userId + " received the entire task list in size: " + todoList.size());
 
         } finally {
             if (session != null) {
@@ -43,6 +48,7 @@ public class TodoDao implements TodoInt{
                 session.close();
             }
         }
+        LOGGER.info("getAllTodoByUserId - Transaction commit, session close");
         return todoList;
     }
     /*
@@ -58,6 +64,7 @@ public class TodoDao implements TodoInt{
             Query<Todo> query = session.createQuery(GET_TODO_BY_ID);
             query.setParameter("TODOID", todoId);
             todo = session.get(Todo.class, todoId);
+            LOGGER.info("A task was received by a user named: " + todo.getUsername() + " by its id " + todoId);
 
         } finally {
             if (session != null) {
@@ -67,6 +74,7 @@ public class TodoDao implements TodoInt{
                 session.close();
             }
         }
+        LOGGER.info("getTodoById - Transaction commit, session close");
         return todo;
     }
     /*
@@ -93,6 +101,7 @@ public class TodoDao implements TodoInt{
             query.setParameter(6, userId);
             query.executeUpdate();
             todoAdded = true;
+            LOGGER.info("The task with title: " + title + " was inserted by a user with a username: " + username);
         }
         finally {
             if (session != null) {
@@ -102,6 +111,7 @@ public class TodoDao implements TodoInt{
                 session.close();
             }
         }
+        LOGGER.info("insertTodo - Transaction commit, session close");
         return todoAdded;
     }
     /*
@@ -118,6 +128,7 @@ public class TodoDao implements TodoInt{
             query.setParameter("ID", todoId);
             query.executeUpdate();
             isDelete = true;
+            LOGGER.info("Deleted todo with id_s: " + todoId);
         } finally {
             if (session != null) {
                 session.getTransaction().commit();
@@ -126,6 +137,7 @@ public class TodoDao implements TodoInt{
                 session.close();
             }
         }
+        LOGGER.info("deleteTodo - Transaction commit, session close");
         return isDelete;
     }
     /*
@@ -152,6 +164,7 @@ public class TodoDao implements TodoInt{
             query.setParameter(6, todoId);
             query.executeUpdate();
             todoAdded = true;
+            LOGGER.info("The user with the username: " + username + " edits the task with the number: " + todoId);
         }
         finally {
             if (session != null) {
@@ -161,6 +174,7 @@ public class TodoDao implements TodoInt{
                 session.close();
             }
         }
+        LOGGER.info("updateTodo - Transaction commit, session close");
         return todoAdded;
     }
 }

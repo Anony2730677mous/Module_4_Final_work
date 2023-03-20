@@ -1,6 +1,8 @@
 package model;
 
 import jakarta.persistence.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.annotations.Type;
 
 import java.math.BigInteger;
@@ -9,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(schema = "todo_list", name = "todos")
 public class Todo {
+    private static final Logger LOGGER = LogManager.getLogger(Todo.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
@@ -34,7 +37,7 @@ public class Todo {
         this.description = description;
         this.targetdate = targetdate;
         this.isDone = isDone;
-
+        LOGGER.info("The task with title: " + title + " was created by a user with a username: " + userName);
     }
 
     public String getDescription() {

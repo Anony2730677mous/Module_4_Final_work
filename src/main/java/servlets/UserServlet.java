@@ -8,6 +8,8 @@ import dao.LoginDao;
 import dao.UserDao;
 import model.LoginBean;
 import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.LoginService;
 import service.UserService;
 
@@ -21,6 +23,7 @@ import java.io.IOException;
 
 @WebServlet("/register")
 public class UserServlet extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger(UserServlet.class);
     private UserDao userDao;
     private LoginDao loginDao;
     private LoginBean loginBean;
@@ -55,12 +58,16 @@ public class UserServlet extends HttpServlet {
         UserService userService = new UserService(userDao);
         LoginService loginService = new LoginService(loginDao, loginBean);
         isValidate = loginService.userValidate(username, password);
+        LOGGER.info("Was the verification of the registration of a user with username: " + username + " was successful? " + isValidate);
         if(!isValidate){
             User user = userService.createNewUser(firstName, lastName, username, password);
             try {
                 isRegister = userService.isRegister(user);
+                LOGGER.info("Registration of a user with the username: " + username + " was successful? " + isRegister);
             } catch (ClassNotFoundException e) {
+                LOGGER.info("Error when registering a new user");
                 throw new RuntimeException(e);
+
             }
 
             try {
@@ -72,6 +79,7 @@ public class UserServlet extends HttpServlet {
             }
         }
         else {
+            LOGGER.info("A user with this name:  " + username + "is already registered ");
             request.setAttribute("NOTIFICATION", "User already Registered! Please, try new username!");
         }
         RequestDispatcher dispatcher = request.getRequestDispatcher("register/register.jsp");

@@ -34,6 +34,8 @@
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-core:3.0.0" />
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:txw2:3.0.0" />
           <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:4.0.0" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.19.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

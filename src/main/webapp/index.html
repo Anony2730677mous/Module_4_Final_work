@@ -1,41 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
     <title>Welcome to todoApp</title>
+  <style>
+    h1 { text-align: center;}
+    p {text-align: center;}
+    div {text-align: center;}
+    input {column-width: auto;}
+    label {column-width: auto;}
+  </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <br>
 
 </head>
-<body>
-<div class="p-3 mb-2 bg-info text-dark d-inline-block p-2 text-bg-primary">
+
+<div style="background-color: #47ff7b"><h1 class="navbar-brand" >Todo List Application</h1></div>
+
+<body style="background-color:powderblue;">
+<div>
+<div class="p-3 mb-2 bg-info text-dark d-inline-block p-2 text-bg-primary text-" style="alignment: center">
   To get started, enter your username and password or register in the application.
 </div>
+</div>
+
 <br>
-<br>
+<div>
 <form action="login" method="POST">
   <div class="p-3 mb-2 bg-secondary text-white d-inline-block">Enter your username and password:</div>
 
   <br>
-  <div class="form-group">
-    <label for="username">User Name:</label>  <br> <input type="text" class="form-control" id="username" placeholder="User Name" name="username" required>
+
+  <div class="form-group size-auto">
+    <nav class="navbar navbar-expand-md navbar-dark"
+         style="background-color: #ff6347">
+    <label for="username">User Name:</label> <br>
+      <input type="text" class="form-control" id="username" placeholder="User Name" name="username" required>
+    </nav>
   </div>
-  <br>
+
+
   <div class="form-group">
+    <nav class="navbar navbar-expand-md navbar-dark"
+         style="background-color: #ff6347">
     <label for="password">Password:</label>  <br> <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+    </nav>
   </div>
-  <br>
-  <br>
-  <input type="submit" class="btn btn-info p-3 mb-2 bg-success text-white" name="Submit">
+
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+</div>
 <br>
 <br>
+<div>
 <form action="register" method="GET">
   <div class="p-3 mb-2 bg-info text-dark d-inline-block p-2 text-bg-primary">
     Register in the app:
   </div>
   <br>
-  <input type="submit" class="btn btn-info p-3 mb-2 bg-success text-white" name="Submit">
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+</div>
 </body>
 </html>
