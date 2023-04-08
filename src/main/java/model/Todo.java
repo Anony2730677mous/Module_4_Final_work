@@ -15,16 +15,16 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
-    @Column(name = "description", length = 255)
+    @Column(name = "description")
     private String description;
     @Column(name = "is_done", columnDefinition = "BIT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isDone;
     @Column(name = "target_date")
     private Date targetdate;
-    @Column(name = "username", length = 255)
+    @Column(name = "username")
     private String username;
-    @Column(name = "title", length = 255)
+    @Column(name = "title")
     private String title;
 
     public Todo() {

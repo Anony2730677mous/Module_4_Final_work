@@ -23,7 +23,7 @@ public class ConnectionToDB {
             .buildSessionFactory();
 
     public static Session getSession() throws HibernateException {
-        LOGGER.warn("!!!getSession warning!!!");
+        LOGGER.info("!!!getSession open!!!");
         return sessionFactory.openSession();
     }
 }
